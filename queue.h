@@ -1,6 +1,7 @@
 #pragma once
 #include <stdlib.h>
 #include <stdbool.h>
+#include <pthread.h>
 
 typedef struct queue queue_t;
 

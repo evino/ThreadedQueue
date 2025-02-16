@@ -2,10 +2,9 @@
 
 struct queue {
     size_t capacity;  // Maximum Capacity of Queue
-    int *arr;         // Array holding ints for Queue
     size_t frontPos;     // Front position in Queue
-    // size_t rear;
     size_t size;      // Current size of Queue
+    int *arr;         // Array holding ints for Queue
 };
 
 queue_t *NewQueue(size_t capacity) {
@@ -13,11 +12,6 @@ queue_t *NewQueue(size_t capacity) {
     queue->capacity = capacity;
     queue->arr = malloc(sizeof(int) * capacity);
     queue->frontPos = 0;
-
-    // Shouldn't need actually
-    // queue->rear = 0;  // Double check that this should be 0, not 1
-
-
     queue->size = 0;
 
     return queue;
@@ -30,6 +24,7 @@ void DeleteQueue(queue_t **queue) {
         free(*queue);
         *queue = NULL;
     }
+    
     return;
 }
 

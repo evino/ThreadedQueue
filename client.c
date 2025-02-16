@@ -6,6 +6,9 @@ int main(int argc, char **argv) {
 
     // Create new queue
     queue_t *q = NewQueue(10);
+    if (Enqueue(q, 10)) {
+        printf("%d queued\n", GetFront(q));
+    }
     int q_FrontVal = GetFront(q);
     printf("Val at front of q is %d\n", q_FrontVal);
 

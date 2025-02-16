@@ -43,7 +43,7 @@ int GetFront(queue_t *queue) {
 }
 
 bool Enqueue(queue_t* queue, int value) {
-    if (queue->size == 0) {
+    if (queue->size == queue->capacity) {
         return false;
     }
 

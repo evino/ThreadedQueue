@@ -26,9 +26,9 @@ void DeleteQueue(queue_t **q);
  * 
  * @param queue_t* Pointer to the queue
  * 
- * @return int Value at front of queue
+ * @return size_t Value at front of queue
  */
-int GetFront();
+int GetFront(queue_t* queue);
 
 /**
  * @brief Get back value from queue

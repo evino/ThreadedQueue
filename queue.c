@@ -18,6 +18,16 @@ queue_t *NewQueue(size_t capacity) {
     return queue;
 }
 
+void DeleteQueue(queue_t **queue) {
+    if (queue != NULL && *queue != NULL) {
+        free((*queue)->arr);
+        (*queue)->arr = NULL;
+        free(*queue);
+        *queue = NULL;
+    }
+    return;
+}
+
 int GetFront(queue_t *queue) {
     if (queue->size == 0) {
         return -999;

@@ -9,5 +9,7 @@ int main(int argc, char **argv) {
     int q_FrontVal = GetFront(q);
     printf("Val at front of q is %d\n", q_FrontVal);
 
+    DeleteQueue(&q);
+
     return 0;
 }

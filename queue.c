@@ -54,3 +54,14 @@ bool Enqueue(queue_t* queue, int value) {
 }
 
 
+int Dequeue(queue_t* queue) {
+    if (queue->size == 0) {
+        return -999;
+    }
+
+    int frontVal = queue->arr[queue->frontPos];
+    queue->frontPos = (queue->frontPos + 1) % queue->capacity;
+    queue->size--;
+    return frontVal;
+}
+

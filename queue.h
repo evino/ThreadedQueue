@@ -1,5 +1,6 @@
 #pragma once
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct queue queue_t;
 
@@ -38,3 +39,25 @@ int GetFront(queue_t* queue);
  * @return int Value at back of queue
  */
 int GetBack();
+
+/**
+ * @brief Add item to rear of queue if not full
+ * 
+ * @param queue_t* Queue to enqueue to
+ * 
+ * @param int value to add enqueue
+ * 
+ * @return bool True if item enqueued, false if not (in case of full queue)
+ */
+bool Enqueue(queue_t* queue, int value);
+
+
+/**
+ * @brief Dequeue value from front of queue if not full
+ * 
+ * @param queue_t* Queue to dequeue from
+ * 
+ * 
+ * @return int Value of item dequeued, otherwise -999 if queue is empty
+ */
+int Dequeue(queue_t* queue);

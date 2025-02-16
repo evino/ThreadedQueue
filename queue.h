@@ -1,4 +1,7 @@
 #pragma once
+#include <stdlib.h>
+
+typedef struct queue queue_t;
 
 /**
  * @brief Get front value from queue

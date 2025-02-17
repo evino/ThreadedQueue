@@ -35,18 +35,17 @@ queue_t *NewQueue(size_t capacity) {
 // Make sure to destroy mutex here
 void DeleteQueue(queue_t **queue) {
     if (queue != NULL && *queue != NULL) {
+        pthread_cond_destroy(&((*queue)->enqueueCV));
+        pthread_cond_destroy(&((*queue)->dequeueCV));
+        pthread_mutex_destroy(&((*queue)->lock));
+
         free((*queue)->arr);
         (*queue)->arr = NULL;
         free(*queue);
         *queue = NULL;
     }
 
-    fprintf(stdout, "Destroying enqueueCV\n");
-    pthread_cond_destroy(&((*queue)->enqueueCV));
-    fprintf(stdout, "Destroying dequeue\n");
-    pthread_cond_destroy(&((*queue)->dequeueCV));
-    fprintf(stdout, "Destroying mutex\n");
-    pthread_mutex_destroy(&((*queue)->lock));
+
     
     return;
 }

@@ -61,19 +61,20 @@ bool Enqueue(queue_t* queue, int value) {
 
 
     if (queue->size == queue->capacity) {
-        printf("waiting on CV\n");
+        printf("waiting on CV in Enqueue()\n");
         pthread_cond_wait(&(queue->enqueueCV), &(queue->lock));
         
         printf("After cv signal sent\n");
-        return false;
+        // return false;
     }
 
+    fprintf(stdout, "Starting enqueue operation\n");
     size_t rearPos = (queue->frontPos + queue->size) % queue->capacity;
     queue->arr[rearPos] = value;
     queue->size++;
     pthread_mutex_unlock(&(queue->lock));
     pthread_cond_signal(&(queue->dequeueCV));
-    fprintf(stdout, "done\n");
+    fprintf(stdout, "Enque of %d done\n", value);
     return true;
 }
 
@@ -83,7 +84,7 @@ int Dequeue(queue_t* queue) {
 
     if (queue->size == 0) {
         pthread_cond_wait(&(queue->dequeueCV), &(queue->lock));
-        fprintf(stdout, "Signal sent to dequeue CV\n");
+        fprintf(stdout, "Waiting on CV in Dequeue()\n");
         // return -999;
     }
 
@@ -93,6 +94,12 @@ int Dequeue(queue_t* queue) {
     queue->size--;
     pthread_mutex_unlock(&(queue->lock));
     pthread_cond_signal(&(queue->enqueueCV));
+
+    fprintf(stdout, "Done dequeuing %d\n", frontVal);
     return frontVal;
+}
+
+size_t GetSize(queue_t* queue) {
+    return queue->size;
 }
 

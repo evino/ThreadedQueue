@@ -64,3 +64,5 @@ bool Enqueue(queue_t* queue, int value);
  * @return int Value of item dequeued, otherwise -999 if queue is empty
  */
 int Dequeue(queue_t* queue);
+
+size_t GetSize(queue_t* queue);

@@ -31,13 +31,21 @@ int main(int argc, char **argv) {
     printf("Hello world!\n");
 
     // Create new queue
-    queue_t *q = NewQueue(10);
+    queue_t *q = NewQueue(1);
 
-    int testVal = 1;
+    int testVal1 = 1;
+    pthread_t t1;
+    struct Push_Args *thread1Args = malloc(sizeof(thread1Args));
+    thread1Args->q = q;
+    thread1Args->val = testVal1;
+    pthread_create(&t1, NULL, Push, (void *) thread1Args);
+    void *returnVal1;
+
+    int testVal2 = 2;
     pthread_t t2;
     struct Push_Args *thread2Args = malloc(sizeof(thread2Args));
     thread2Args->q = q;
-    thread2Args->val = testVal;
+    thread2Args->val = testVal2;
     pthread_create(&t2, NULL, Push, (void *) thread2Args);
     void *returnVal2;
 
@@ -47,24 +55,14 @@ int main(int argc, char **argv) {
     pthread_create(&t3, NULL, Pop, (void *) thread3Args);
     void *returnVal3;
 
-    fprintf(stdout, "Before enqueue test\n");
-    // Enqueue Test
-    // for (int i = 1; i <= 11; i++) {
-    //     fprintf(stdout, "db\n");
-    //     printf("Trying to queue %d. ", i);
-    //     thread2Args->val = i;
-    //     pthread_join(t2, &returnVal2);
-    //     // if (Enqueue(q, i)) {
-    //     //     printf("%d queued\n", i);
-    //     // } else {
-    //     //     printf("Can't enqueue %d, queue is full\n", i);
-    //     // }
-    // }
-
-    fprintf(stdout, "db\n");
-    fprintf(stdout, "Trying to queue %d\n", testVal);
-    pthread_join(t3, &returnVal3);
+    pthread_join(t1, &returnVal1);
     pthread_join(t2, &returnVal2);
+    pthread_join(t3, &returnVal3);
+
+    free(thread1Args);
+    free(thread2Args);
+    free(thread3Args);
+
 
     // int q_FrontVal = GetFront(q);
 
@@ -85,6 +83,7 @@ int main(int argc, char **argv) {
 
     // printf("Val at front of q is %d\n", q_FrontVal);
 
+    printf("Queue size is now %ld\n", GetSize(q));
     DeleteQueue(&q);
 
     return 0;

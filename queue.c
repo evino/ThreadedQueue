@@ -40,6 +40,13 @@ void DeleteQueue(queue_t **queue) {
         free(*queue);
         *queue = NULL;
     }
+
+    fprintf(stdout, "Destroying enqueueCV\n");
+    pthread_cond_destroy(&((*queue)->enqueueCV));
+    fprintf(stdout, "Destroying dequeue\n");
+    pthread_cond_destroy(&((*queue)->dequeueCV));
+    fprintf(stdout, "Destroying mutex\n");
+    pthread_mutex_destroy(&((*queue)->lock));
     
     return;
 }

@@ -7,8 +7,8 @@ struct queue {
     size_t size;      // Current size of Queue
     int *arr;         // Array holding ints for Queue
     pthread_mutex_t lock;
-    pthread_cond_t enqueueCV;
-    pthread_cond_t dequeueCV;
+    pthread_cond_t enqueueCV;  // Conditional variable for if queue is full
+    pthread_cond_t dequeueCV;  // Conditional variable for if queue is empty
 };
 
 queue_t *NewQueue(size_t capacity) {
@@ -32,7 +32,8 @@ queue_t *NewQueue(size_t capacity) {
     return queue;
 }
 
-// Make sure to destroy mutex here
+
+// Should probably add thread saftey here
 void DeleteQueue(queue_t **queue) {
     if (queue != NULL && *queue != NULL) {
         pthread_cond_destroy(&((*queue)->enqueueCV));
@@ -52,9 +53,11 @@ void DeleteQueue(queue_t **queue) {
 
 int GetFront(queue_t *queue) {
     if (queue->size == 0) {
-        return -999;
+        printf("Waiting on CV in GetFront()\n");
+        pthread_cond_wait(&(queue->dequeueCV), &(queue->lock));
     }
 
+    printf("Signal sent to CV in GetFront()\n");
     int frontValue = queue->arr[queue->frontPos];
     return frontValue;
 }
